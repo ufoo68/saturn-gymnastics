@@ -95,3 +95,8 @@ p {
     max-width: 200px;
     font-family: monospace, monospace;
 }
+
+.saturn-img {
+    max-width: 300px;
+    height: auto;
+}

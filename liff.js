@@ -1,5 +1,5 @@
 // User service UUID: Change this to your generated service UUID
-const USER_SERVICE_UUID         = '91E4E176-D0B9-464D-9FE4-52EE3E9F1552'; // LED, Button
+const USER_SERVICE_UUID         = '92930de8-2a3c-48de-922d-da4835614f84'; // LED, Button
 // User service characteristics
 const LED_CHARACTERISTIC_UUID   = 'E9062E71-9E62-4BC6-B0D3-35CDCD9B027B';
 const BTN_CHARACTERISTIC_UUID   = '62FBD229-6EDD-4D1A-B554-5C4E1BB29169';
@@ -35,34 +35,11 @@ function handlerToggleLed() {
 // UI functions //
 // ------------ //
 
-function uiToggleLedButton(state) {
-    const el = document.getElementById("btn-led-toggle");
-    el.innerText = state ? "Switch LED OFF" : "Switch LED ON";
-
-    if (state) {
-      el.classList.add("led-on");
-    } else {
-      el.classList.remove("led-on");
-    }
-}
-
 function uiCountPressButton() {
     clickCount++;
 
     const el = document.getElementById("click-count");
     el.innerText = clickCount;
-}
-
-function uiToggleStateButton(pressed) {
-    const el = document.getElementById("btn-state");
-
-    if (pressed) {
-        el.classList.add("pressed");
-        el.innerText = "Pressed";
-    } else {
-        el.classList.remove("pressed");
-        el.innerText = "Released";
-    }
 }
 
 function uiToggleDeviceConnected(connected) {
@@ -165,8 +142,6 @@ function liffRequestDevice() {
 
 function liffConnectToDevice(device) {
     device.gatt.connect().then(() => {
-        document.getElementById("device-name").innerText = device.name;
-        document.getElementById("device-id").innerText = device.id;
 
         // Show status connected
         uiToggleDeviceConnected(true);
@@ -249,6 +224,7 @@ function liffGetButtonStateCharacteristic(characteristic) {
             if (val > 0) {
                 // press
                 uiToggleStateButton(true);
+                uiCountPressButton();
             } else {
                 // release
                 uiToggleStateButton(false);
@@ -256,16 +232,6 @@ function liffGetButtonStateCharacteristic(characteristic) {
             }
         });
     }).catch(error => {
-        uiStatusError(makeErrorMsg(error), false);
-    });
-}
-
-function liffToggleDeviceLedState(state) {
-    // on: 0x01
-    // off: 0x00
-    window.ledCharacteristic.writeValue(
-        state ? new Uint8Array([0x01]) : new Uint8Array([0x00])
-    ).catch(error => {
         uiStatusError(makeErrorMsg(error), false);
     });
 }
