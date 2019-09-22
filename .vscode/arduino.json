@@ -1,6 +1,0 @@
-{
-    "board": "esp32:esp32:m5stick-c",
-    "configuration": "PartitionScheme=default,UploadSpeed=1500000,DebugLevel=none",
-    "port": "COM9",
-    "sketch": "m5stick-c-linethings\\m5stick-c-linethings.ino"
-}
