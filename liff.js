@@ -28,7 +28,6 @@ function handlerToggleLed() {
     ledState = !ledState;
 
     uiToggleLedButton(ledState);
-    liffToggleDeviceLedState(ledState);
 }
 
 // ------------ //
