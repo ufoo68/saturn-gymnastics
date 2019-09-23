@@ -209,8 +209,8 @@ function liffGetButtonStateCharacteristic(characteristic) {
     characteristic.startNotifications().then(() => {
         characteristic.addEventListener('characteristicvaluechanged', e => {
             const val = String.fromCharCode.apply(null, new Uint8Array(e.target.value.buffer));
-            const el = document.getElementById("click-count");
-            el.innerText = parseInt(val, 10);
+            const el = document.getElementById("saturn-img");
+            el.style.marginBottom = `${parseInt(val, 10)/100}px`
         });
     }).catch(error => {
         uiStatusError(makeErrorMsg(error), false);
