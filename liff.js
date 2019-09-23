@@ -211,7 +211,7 @@ function liffGetButtonStateCharacteristic(characteristic) {
             const val = String.fromCharCode.apply(null, new Uint8Array(e.target.value.buffer));
             const el = document.getElementById("saturn-img");
             val = parseInt(val, 10)/100;
-            el.style.marginBottom = `${val}px`
+            el.style.marginTop = `${val}px`
         });
     }).catch(error => {
         uiStatusError(makeErrorMsg(error), false);
