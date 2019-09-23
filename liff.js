@@ -35,13 +35,6 @@ function handlerToggleLed() {
 // UI functions //
 // ------------ //
 
-function uiCountPressButton() {
-    clickCount++;
-
-    const el = document.getElementById("click-count");
-    el.innerText = clickCount;
-}
-
 function uiToggleDeviceConnected(connected) {
     const elStatus = document.getElementById("status");
     const elControls = document.getElementById("controls");
@@ -220,16 +213,9 @@ function liffGetButtonStateCharacteristic(characteristic) {
     // (Get notified when button state changes)
     characteristic.startNotifications().then(() => {
         characteristic.addEventListener('characteristicvaluechanged', e => {
-            const val = (new Uint8Array(e.target.value.buffer))[0];
-            if (val > 0) {
-                // press
-                uiToggleStateButton(true);
-                uiCountPressButton();
-            } else {
-                // release
-                uiToggleStateButton(false);
-                uiCountPressButton();
-            }
+            const val = String.fromCharCode.apply(null, new Uint8Array(e.target.value.buffer));
+            const el = document.getElementById("click-count");
+            el.innerText = parseInt(val, 10);
         });
     }).catch(error => {
         uiStatusError(makeErrorMsg(error), false);

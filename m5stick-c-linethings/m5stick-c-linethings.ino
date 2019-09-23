@@ -42,32 +42,15 @@ class serverCallbacks: public BLEServerCallbacks {
 float accX = 0;
 float accY = 0;
 float accZ = 0;
-
-const int numOfSample = 50;
-float sample[numOfSample];
-float threshold = 0;
-int countSample = 0;
-float range = 50.0;
-
-uint8_t countStep = 0;
-uint8_t one = 1;
-
-float getDynamicThreshold(float *s) {
-    float maxVal = s[0];
-    float minVal = s[0];
-    for (int i=1; i<sizeof(s); i++) {
-        maxVal = max(maxVal, s[i]);
-        minVal = min(minVal, s[i]);
-    }
-    return (maxVal + minVal) / 2.0;
-}
+float val;
+char values[5];
 
 float getFilterdAccelData() {
-    static float y[2] = {0};
-    M5.MPU6886.getAccelData(&accX,&accY,&accZ);
-    y[1] = 0.8 * y[0] + 0.2 * (abs(accX) + abs(accY) + abs(accZ)) * 1000.0;
-    y[0] = y[1];
-    return y[1];
+  static float y[2] = {0};
+  M5.MPU6886.getAccelData(&accX,&accY,&accZ);
+  y[1] = 0.8 * y[0] + 0.2 * (abs(accX) + abs(accY) + abs(accZ)) * 1000.0;
+  y[0] = y[1];
+  return y[1];
 }
 
 void setup() {
@@ -91,56 +74,25 @@ void setup() {
   M5.Lcd.setTextSize(1);
   M5.Lcd.setCursor(0, 0);
   M5.MPU6886.Init();
-  sample[countSample] = getFilterdAccelData();
 }
 
 void loop() {
   delay(100);
-  countSample++;
-  sample[countSample] = getFilterdAccelData();
-  if (abs(sample[countSample] - sample[countSample-1]) < range) {
-    sample[countSample] = sample[countSample-1];
-    countSample--;
-  }
-  if (sample[countSample] < threshold && sample[countSample-1] > threshold) {
-    countStep++;
+  val = getFilterdAccelData();
+  sprintf(values, "%f", val);
 
-    notifyCharacteristic->setValue(&one, 1);
-    notifyCharacteristic->notify();
-  }
-  if (countSample == numOfSample) {
-    threshold = getDynamicThreshold(&sample[0]);
-    countSample = 0;
-    sample[countSample] = getFilterdAccelData();
-  }
-  if(digitalRead(M5_BUTTON_RST) == LOW){
-    countStep=0;
-    M5.Lcd.fillScreen(BLACK);
-    while(digitalRead(M5_BUTTON_RST) == LOW);
-  }
-
-  M5.Lcd.setCursor(0, 30);
-  M5.Lcd.println("Walked " + String(countStep) + " steps");
+  notifyCharacteristic->setValue(values, 5);
+  notifyCharacteristic->notify();
 
   // Disconnection
   if (!deviceConnected && oldDeviceConnected) {
     delay(500); // Wait for BLE Stack to be ready
     thingsServer->startAdvertising(); // Restart advertising
     oldDeviceConnected = deviceConnected;
-    M5.Lcd.fillScreen(BLACK);
-    M5.Lcd.setCursor(0, 30);
-    M5.Lcd.println("Ready to Connect");
-    delay(1000);
-    M5.Lcd.fillScreen(BLACK);
   }
   // Connection
   if (deviceConnected && !oldDeviceConnected) {
     oldDeviceConnected = deviceConnected;
-    M5.Lcd.fillScreen(BLACK);
-    M5.Lcd.setCursor(0, 30);
-    M5.Lcd.println("Connected");
-    delay(1000);
-    M5.Lcd.fillScreen(BLACK);
   }
 }
 
