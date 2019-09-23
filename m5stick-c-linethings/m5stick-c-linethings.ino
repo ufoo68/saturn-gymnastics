@@ -81,7 +81,7 @@ void loop() {
   val = getFilterdAccelData();
   sprintf(values, "%f", val);
 
-  notifyCharacteristic->setValue(values, 5);
+  notifyCharacteristic->setValue(values);
   notifyCharacteristic->notify();
 
   // Disconnection
