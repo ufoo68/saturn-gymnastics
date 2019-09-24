@@ -100,3 +100,7 @@ p {
     max-width: 300px;
     height: auto;
 }
+
+.num-count {
+    font-size: 30px
+}
