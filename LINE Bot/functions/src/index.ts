@@ -38,6 +38,8 @@ function handleEvent(event:line.MessageEvent) {
                     return client.replyMessage(event.replyToken, buildReplyText(phrase.mars) as line.Message);
                 case '土星':
                     return client.replyMessage(event.replyToken, buildReplyText(phrase.saturn) as line.Message);
+                case '月':
+                    return client.replyMessage(event.replyToken, buildReplyText(phrase.moon) as line.Message);
             }
     }
     return Promise.resolve(null);
