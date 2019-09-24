@@ -209,9 +209,8 @@ function liffGetButtonStateCharacteristic(characteristic) {
     characteristic.startNotifications().then(() => {
         characteristic.addEventListener('characteristicvaluechanged', e => {
             const val = String.fromCharCode.apply(null, new Uint8Array(e.target.value.buffer));
-            const el = document.getElementById("saturn-img");
-            val = parseInt(val, 10)/100;
-            el.style.marginTop = `${val}px`
+            const el = document.getElementById("count");
+            el.innerText = val;
         });
     }).catch(error => {
         uiStatusError(makeErrorMsg(error), false);

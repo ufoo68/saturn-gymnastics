@@ -18,5 +18,10 @@ export const phrase = {
         "楽しくチア体操で、あなたも遊びながら楽しく筋肉とリズム感を鍛えましょう。",
         "https://www.youtube.com/watch?v=Xxng9W4SSBk&feature=youtu.be&fbclid=IwAR3GYeNab2F2nr1uFOhpUc9Slz9XCm7o9IUqUTXqYBAAaUpY7_Ry7QIrYjg",
         "元気に楽しく！音でリズム感も養います。親子やチームで個人でも！！笑顔は心が安らぐ効果があり！！！"
+    ],
+    "saturn":[
+        "どせいちゃんになって、体操土星チア体操で回そう！",
+        "line://app/1614735021-49MwZPdM",
+        "土星の輪のように回して、体幹を鍛え怪我予防。贅肉を減らし、モテウエストも目指します！"
     ]
 }

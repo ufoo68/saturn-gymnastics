@@ -36,6 +36,8 @@ function handleEvent(event:line.MessageEvent) {
                     return client.replyMessage(event.replyToken, buildReplyText(phrase.earth) as line.Message);
                 case '火星':
                     return client.replyMessage(event.replyToken, buildReplyText(phrase.mars) as line.Message);
+                case '土星':
+                    return client.replyMessage(event.replyToken, buildReplyText(phrase.saturn) as line.Message);
             }
     }
     return Promise.resolve(null);
